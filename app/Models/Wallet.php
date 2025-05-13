@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
 
 class Wallet extends Model
 {
     use HasFactory;
+    public $incrementing = false;
+    protected $appends = ['formatted_balance'];
+
     protected $fillable = [
         'user_id',
         'balance',
@@ -27,12 +32,12 @@ class Wallet extends Model
     /**
      * Relação com o usuário
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
     /**
-     * Verifica se há balance suficiente para uma transação
+     * Verifica se há saldo suficiente para uma transação
      */
     public function hasSufficientBalance(float $amount): bool
     {
@@ -61,9 +66,15 @@ class Wallet extends Model
     /**
      * Formata o saldo da carteira
      */
-    public function getFormattedBalanceAttribute(): string
+    protected function getFormattedBalanceAttribute(): Attribute
     {
-        return 'R$ ' . number_format($this->balance, 2, ',', '.');
+        return Attribute::make(
+            get: fn () => 'R$ ' . number_format($this->balance, 2, ',', '.')
+        );
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'wallet_id');
     }
 
 }
