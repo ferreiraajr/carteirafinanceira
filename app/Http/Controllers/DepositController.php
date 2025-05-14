@@ -36,10 +36,12 @@ class DepositController extends Controller
                 'amount' => $amount,
             ]);
 
-            return redirect()->route('dashboard')->with('success', 'Depósito realizado com sucesso!');
+            return Inertia::render('Deposit/DepositCreate',[
+                'success'=> 'Depósito realizado com sucesso!',]);
         } catch (\Exception $e) {
-            dd($e);
-            return redirect()->back()->with('error', $e->getMessage());
+            return Inertia::render('Deposit/DepositCreate',[
+                'error' => $e->getMessage(),]);
+
         }
     }
 }
