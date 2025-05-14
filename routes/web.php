@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,21 +24,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/transfer', 'store')->name('transfer.store');
     });
 
-    Route::get('/wallets/by-email/{email}', function ($email) {
-        $user = User::where('email', $email)->first();
-
-        if (!$user) {
-            return response()->json(['message' => 'Usuário não encontrado'], 404);
-        }
-        $wallet = $user->wallet;
-        if (!$wallet) {
-            return response()->json(['message' => 'Carteira não encontrada para este usuário'], 404);
-        }
-        return response()->json([
-            'wallet_id' => $wallet->id,
-            'user_name' => $user->name,
-        ]);
-    });
+    Route::get('/wallets/by-email', [WalletController::class, 'findByEmail']);
+    Route::post('/wallet/transaction/reverse/{transactionId}', [WalletController::class, 'reverse'])->name('wallet.transaction.reverse');
 });
 
 require __DIR__.'/settings.php';
