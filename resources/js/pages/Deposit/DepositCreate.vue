@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/InputError.vue';
 import { Label } from '@/components/ui/label';
-import TextLink from '@/components/TextLink.vue';
 import { LoaderCircle } from 'lucide-vue-next';
+import { useToast } from '@/components/ui/toast'
+
+const { toast } = useToast()
 
 const form = useForm({
     amount: null,
@@ -25,13 +27,37 @@ const breadcrumbs = [
 ];
 const submit = () => {
     form.post('/deposit', {
+        onSuccess: (response) => {
+            if (response.props.success) {
+                toast({
+                    title: "Depósito realizado!",
+                    description: response.props.success,
+                    variant: "success",
+                    duration: 3000
+                })
+            }
+            if (response.props.error) {
+                toast({
+                    title: "Erro!",
+                    description: response.props.error,
+                    variant: "destructive",
+                    duration: 5000
+                })
+            }
+        },
         onFinish: () => form.reset('amount'),
-        onError: (errors: any) => {
+        onError: (errors) => {
             if (errors.amount) {
                 form.reset('amount');
                 if (amountInput.value instanceof HTMLInputElement) {
                     amountInput.value.focus();
                 }
+                toast({
+                    title: "Erro!",
+                    description: errors.amount,
+                    variant: "destructive",
+                    duration: 5000
+                })
             }
         },
     });
