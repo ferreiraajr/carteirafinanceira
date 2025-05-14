@@ -55,6 +55,7 @@ const columnsDeposits = [
 const columnsTransfers = [
     { key: 'formatted_amount', label: 'Valor' },
     { key: 'formatted_created_at', label: 'Data' },
+    { key: 'action', label: 'Ação' },
 ];
 
 const form = useForm({});
@@ -68,14 +69,11 @@ const handleRevert = (item) => {
 const confirmRevert = () => {
     if (!selectedTransaction.value) return;
 
-    form.post(`/transactions/${selectedTransaction.value.id}/revert`, {
+    form.post(`/wallet/transaction/reverse/${selectedTransaction.value.id}`, {
         onSuccess: () => {
-            // Atualizar a lista ou mostrar mensagem de sucesso
             selectedTransaction.value = null;
         },
         onError: (errors) => {
-            // Tratar erros se necessário
-            console.error(errors);
         }
     });
 };

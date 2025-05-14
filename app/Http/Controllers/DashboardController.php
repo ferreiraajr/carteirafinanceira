@@ -18,15 +18,18 @@ class DashboardController extends Controller
 
         $depositCount = $user->wallet->transactions()
             ->where('type', 'deposit')
+            ->where('reverted', false)
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->count();
         $transferCount = Transaction::where('type', 'transfer')
             ->where('wallet_id_from', $walletId)
+            ->where('reverted', false)
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->count();
 
         $lastDeposits = $user->wallet->transactions()
             ->where('type', 'deposit')
+            ->where('reverted', false)
             ->orderByDesc('created_at')
             ->take(10)
             ->get()
@@ -44,6 +47,7 @@ class DashboardController extends Controller
 
         $lastTransfers = Transaction::where('type', 'transfer')
             ->where('wallet_id_from', $walletId)
+            ->where('reverted', false)
             ->orderByDesc('created_at')
             ->take(10)
             ->get()
