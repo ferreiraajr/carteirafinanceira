@@ -1,124 +1,144 @@
-# Desafio para full stack Grupo Adriano Cobuccio
+# Carteira Digital – Desafio Full Stack
+**Grupo Adriano Cobuccio**
 
-## Objetivo
+## 🎯 Objetivo
 
-O objetivo consiste na criação de uma interface funcional equivalente a uma carteira financeira em
-que os usuários possam realizar transferência de saldo e depósito.
+Desenvolver uma interface funcional de carteira financeira, permitindo aos usuários realizar transferências de saldo, depósitos e reversão de transações.
 
+---
 
-## 📋 Requisitos Implementados
+## 📋 Funcionalidades Implementadas
 
-    ✅ Cadastro e autenticação de usuários
+- Cadastro e autenticação de usuários
+- Transferência entre usuários com validação de saldo
+- Sistema de depósitos
+- Reversão de transações (estorno)
+- Histórico de transações
+- Validações de segurança
 
-    ✅ Transferência entre usuários com validação de saldo
-
-    ✅ Sistema de depósitos
-
-    ✅ Reversão de transações (estorno)
-
-    ✅ Histórico de transações
-
-    ✅ Validações de segurança
+---
 
 ## 🚀 Tecnologias Utilizadas
-    - Laravel 12 (PHP 8.2)
-    - Vue 3
-    - Tailwind CSS (Shadcn/Vue)
-    - Inertia
-    - PostgreSQL (Banco de dados principal)
-    - Docker (Ambiente containerizado)
 
-## Contributing
+- **Laravel 12** (PHP 8.2)
+- **Vue 3**
+- **Tailwind CSS** (Shadcn/Vue)
+- **Inertia.js**
+- **PostgreSQL**
+- **Docker** (ambiente containerizado)
 
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
 ## ⚙️ Instalação
-### Via Docker (Recomendado)
 
-##### Clone o repositório
-````
+### Usando Docker (Recomendado)
+
+1. **Clone o repositório**
+    ```bash
     git clone https://github.com/seu-usuario/carteira-digital.git
-````
-##### Acesse o diretório do projeto
-````
     cd carteira-digital
-````
+    ```
 
-#### Crie o arquivo .env
-````
+2. **Crie o arquivo `.env`**
+    ```bash
     cp .env.example .env
-````
+    ```
 
-#### Altere as variáveis de ambiente
-````
+3. **Configure as variáveis de ambiente no `.env`**
+    ```
     DB_CONNECTION=pgsql
     DB_HOST=postgres
     DB_PORT=5432
     DB_DATABASE=walletcobuccio
     DB_USERNAME=userwallet
     DB_PASSWORD=adminteste
-````
-#### Inicie o ambiente Docker
-````
+    ```
+
+4. **Suba os containers Docker**
+    ```bash
     docker-compose up -d
-````
-#### Instale as dependências do PHP
-````
+    ```
+
+5. **Instale as dependências do PHP**
+    ```bash
     docker-compose run --rm composer install
-````
+    ```
 
-#### Gerar a chave de aplicação
-````
+6. **Gere a chave da aplicação**
+    ```bash
     docker-compose run --rm artisan key:generate
-````
-#### Realize as migrações e seeders
-````
-    docke-compose run --rm artisan migrate --seed
-````
-#### Gere o link simbólico para o storage
-````
+    ```
+
+7. **Execute as migrações e seeders**
+    ```bash
+    docker-compose run --rm artisan migrate --seed
+    ```
+
+8. **Crie o link simbólico do storage**
+    ```bash
     docker-compose run --rm artisan storage:link
-````
-#### Ajuste as permissões do storage
-````
+    ```
+
+9. **Ajuste as permissões do storage**
+    ```bash
     docker exec -it laravel-app chown -R www-data:www-data /var/www/storage
-````
-#### Instale as dependências do Node
-````
+    ```
+
+10. **Instale as dependências do Node.js**
+    ```bash
     docker-compose run --rm npm install
-````
-#### Compile os assets
-````
+    ```
+
+11. **Compile os assets**
+    ```bash
     docker-compose run --rm npm run build
-````
-### Sem Docker
-````
+    ```
+
+---
+
+### Instalação Manual (Sem Docker)
+
+1. **Clone o repositório**
+    ```bash
     git clone https://github.com/seu-usuario/carteira-digital.git
-````
-````
     cd carteira-digital
-````
-````
+    ```
+
+2. **Crie o arquivo `.env`**
+    ```bash
     cp .env.example .env
-````
-````
+    ```
+
+3. **Instale as dependências do PHP**
+    ```bash
     composer install
-````
-````
+    ```
+
+4. **Gere a chave da aplicação**
+    ```bash
     php artisan key:generate
-````
-````
+    ```
+
+5. **Execute as migrações e seeders**
+    ```bash
     php artisan migrate --seed
-````
-````
+    ```
+
+6. **Inicie o servidor**
+    ```bash
     php artisan serve
-````
+    ```
 
-## 🧪 Testes
+---
 
+## 📝 Observações
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Certifique-se de que o PostgreSQL esteja rodando e configurado conforme o `.env`.
+- Para ambiente Docker, os comandos `artisan` e `npm` são executados dentro dos containers.
+- O frontend é servido via Inertia.js integrado ao Laravel.
 
-## License
+---
 
-The Laravel + Vue starter kit is open-sourced software licensed under the MIT license.
+## 📄 Licença
+
+Este projeto é apenas para fins de avaliação técnica.
