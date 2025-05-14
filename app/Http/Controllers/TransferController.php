@@ -22,14 +22,10 @@ class TransferController extends Controller
 
     public function create(): Response
     {
-        $users = User::where('id', '!=', Auth::id())->get();
-
-        return Inertia::render('Transfer/TransferCreate', [
-            'users' => $users
-        ]);
+        return Inertia::render('Transfer/TransferCreate');
     }
 
-    public function store(TransferRequest $request): RedirectResponse
+    public function store(TransferRequest $request)
     {
         $user = Auth::user();
         $amount = $request->validated('amount');
@@ -39,7 +35,7 @@ class TransferController extends Controller
             $recipientWallet = $this->walletService->getWalletByUserId($recipientId);
 
             if (!$recipientWallet) {
-                return redirect()->back()->with('error', 'Carteira do destinatário não encontrada.');
+                return response()->json(['message' => 'Carteira do destinatário não encontrada.'], 404);
             }
 
             $this->walletService->transfer($user->wallet->id, $recipientWallet->id, $amount);
@@ -52,9 +48,13 @@ class TransferController extends Controller
                 'amount' => $amount,
             ]);
 
-            return redirect()->route('dashboard')->with('success', 'Transferência realizada com sucesso!');
+            return Inertia::render('Transfer/TransferCreate', [
+                'success' => 'Transferência realizada com sucesso!',
+            ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return Inertia::render('Transfer/TransferCreate', [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }
